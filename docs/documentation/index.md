@@ -1,6 +1,8 @@
 # Documentation
 
-There are two parts to the magniv-core library
+All magniv projects need to follow a [file structure](../documentation/file-structure).
+
+There are two parts to the magniv python library
 
 * [The task decorator class](../documentation/task-decorator)
 * [The CLI](../documentation/cli)
