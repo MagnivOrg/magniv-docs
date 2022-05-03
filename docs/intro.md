@@ -5,44 +5,33 @@ slug: /
 
 # Getting Started
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Let's get rocking with Magniv 🚀!
 
-## Getting Started
-
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 14 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
+## Installation
+Magniv core can be found on [pypi](https://pypi.org/project/magniv/) and installed with pip
 ```bash
-npm init docusaurus@latest my-website classic
+    pip install magniv
 ```
 
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
+## Running Magniv
+Magniv can be hosted or self-hosted.
 
-The command also installs all necessary dependencies you need to run Docusaurus.
+Self-hosted works well for teams that need tight control of infrastructure and security.
+Hosted is perfecct for teams that want to move quickly and not worry about how things work in the backend.
 
-## Start your site
 
-Run the development server:
+||Hosted|Self-Hosted|
+|-|------|-----------|
+|Export to Airflow|Yes|Yes|
+|Dashboard|Yes|No|
+|Github Integration|Yes|No|
+|Teams & Collaboration|Yes|No|
+|Managed Infrastructure|Yes|No|
 
-```bash
-cd my-website
-npm run start
-```
+### Hosted
 
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
+To get started with the hosted version of Magniv [create an account](dashboard.magniv.app) and connect your github.
+Once you have everything set up, take a look at the documentation for [magniv core](../documentation) and follow one of [our tutorials](../tutorials)
+### Self-Hosted
 
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+For self-hosted take a look at our documentation for [exporting to airflow on magniv core](../documentation/exporting)
