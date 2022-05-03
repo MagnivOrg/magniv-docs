@@ -10,7 +10,7 @@ const config = {
   tagline: 'Getting Started With Magniv',
   url: 'https://docs.magniv.io',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'ignore',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/logo.png',
   organizationName: 'MagnivOrg', // Usually your GitHub org/user name.
