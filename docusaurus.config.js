@@ -71,14 +71,6 @@ const config = {
             title: 'Community',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/magniv',
-              },
-              {
-                label: 'Discord',
-                href: '#',
-              },
-              {
                 label: 'Twitter',
                 href: 'https://twitter.com/magnivApp',
               },
@@ -93,7 +85,7 @@ const config = {
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/magnivOrg',
+                href: 'https://github.com/MagnivOrg',
               },
             ],
           },
