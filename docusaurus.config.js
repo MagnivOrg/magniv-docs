@@ -73,6 +73,10 @@ const config = {
                 label: 'Tutorials',
                 to: '/tutorials',
               },
+              {
+                label: 'FAQ',
+                to: '/faq',
+              },
             ],
           },
           {
