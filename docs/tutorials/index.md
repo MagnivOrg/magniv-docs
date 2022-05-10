@@ -1,3 +1,4 @@
 # Tutorials
 
-Some end to end tutorials on using Magniv
+Magniv setup and usage tutorials:
+- [Your First Workspace](getting-started)

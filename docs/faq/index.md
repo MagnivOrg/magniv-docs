@@ -1,10 +1,6 @@
----
-sidebar_position: 4
-slug: /faq
----
 import TOCInline from '@theme/TOCInline';
 
-# Frequently Asked Questions
+# FAQs
 
 Don't see your question here? Email us at [hello@magniv.app](mailto:hello@magniv.app) 👋
 
@@ -17,10 +13,7 @@ Magniv core can be found on [pypi](https://pypi.org/project/magniv/) and install
 ```
 
 ## Why did my build fail?
-Magniv core can be found on [pypi](https://pypi.org/project/magniv/) and installed with pip
-```bash
-    pip install magniv
-```
+Many reasons... see [build failures](build-failures) for more info.
 
 ## What are Airflow import errors?
 Magniv core can be found on [pypi](https://pypi.org/project/magniv/) and installed with pip
