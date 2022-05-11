@@ -44,9 +44,21 @@ const config = {
         items: [
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'documentation/index',
             position: 'left',
-            label: 'Docs',
+            label: 'Documentation',
+          },
+          {
+            type: 'doc',
+            docId: 'tutorials/index',
+            position: 'left',
+            label: 'Tutorials',
+          },
+          {
+            type: 'doc',
+            docId: 'faq/index',
+            position: 'left',
+            label: 'FAQs',
           },
           {
             href: 'https://github.com/MagnivOrg',
