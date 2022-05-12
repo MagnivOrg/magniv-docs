@@ -25,5 +25,7 @@ Common ones include forgetting to update the requirements.txt file or an incorre
 
 
 ## Why did my build fail? {#build-fail}
-Many reasons... see [build failures](build-failures) for more info.
 
+Check the error in the builds history page, that will usually give you information on why the build failed.
+
+Most common reasons are incorrect [file structure](../documentation/file-structure) or using a [key](https://docs.magniv.io/documentation/task-decorator#fields) more than once.
