@@ -23,6 +23,7 @@ The best way to debug this is to check the logs for the run and see what is goin
 
 Common ones include forgetting to update the requirements.txt file or an incorrect version of python when setting up a workspace.
 
+If your build run logs are empty, make sure you have magniv in your requirements.txt
 
 ## Why did my build fail? {#build-fail}
 
