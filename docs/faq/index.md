@@ -28,4 +28,20 @@ Common ones include forgetting to update the requirements.txt file or an incorre
 
 Check the error in the builds history page, that will usually give you information on why the build failed.
 
-Most common reasons are incorrect [file structure](../documentation/file-structure) or using a [key](https://docs.magniv.io/documentation/task-decorator#fields) more than once.
+Most common reasons are incorrect [file structure](../documentation/file-structure), forgetting a requirements.txt file or using a [key](https://docs.magniv.io/documentation/task-decorator#fields) more than once.
+
+## How do I create a requirements.txt? 
+
+In order for Magniv to work you need to have a requirements.txt and have the neccissary libraries and versions in your requirements.txt.
+If you forget a requirements.txt your build will fail, if you have the improper librariers in it your task will fail. 
+
+It is highly reccomended to use a [virtual environment](https://docs.python.org/3/library/venv.html). To create a requirements.txt when using a venv run the following command in your tasks folder:
+```bash 
+    pip freeze > requirements.txt
+```
+
+If you are using conda to manage your virtual environment you need to run a slighly different command to create a requirements.txt: 
+```bash
+    pip list --format=freeze > requirements.txt
+```
+ 
