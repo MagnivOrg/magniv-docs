@@ -2,7 +2,7 @@ import TOCInline from '@theme/TOCInline';
 
 # FAQs
 
-Don't see your question here? Email us at [hello@magniv.app](mailto:hello@magniv.app) 👋
+Don't see your question here? Email us at [hello@magniv.io](mailto:hello@magniv.app) 👋
 
 <TOCInline toc={toc} />
 

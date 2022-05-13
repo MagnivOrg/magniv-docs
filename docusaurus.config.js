@@ -105,7 +105,7 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: 'https://blog.magniv.app',
+                to: 'https://blog.magniv.io',
               },
               {
                 label: 'GitHub',

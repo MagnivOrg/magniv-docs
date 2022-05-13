@@ -30,7 +30,7 @@ Hosted is perfecct for teams that want to move quickly and not worry about how t
 
 ### Hosted
 
-To get started with the hosted version of Magniv [create an account](dashboard.magniv.app) and connect your github.
+To get started with the hosted version of Magniv [create an account](dashboard.magniv.io) and connect your github.
 Once you have everything set up, take a look at the documentation for [magniv library](../documentation) and follow one of [our tutorials](../tutorials)
 ### Self-Hosted
 
