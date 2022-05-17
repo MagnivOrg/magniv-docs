@@ -17,7 +17,7 @@ Magniv core can be found on [pypi](https://pypi.org/project/magniv/) and install
 Magniv can be hosted or self-hosted.
 
 Self-hosted works well for teams that need tight control of infrastructure and security.
-Hosted is perfecct for teams that want to move quickly and not worry about how things work in the backend.
+Hosted is perfect for teams that want to move quickly and not worry about how things work in the backend.
 
 
 ||Hosted|Self-Hosted|
