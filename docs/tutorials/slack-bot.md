@@ -6,6 +6,8 @@ sidebar_position: 3
 
 Let's set up a Slack bot that notifies us regularly using Magniv. This could be used to monitor model status, analytics data, or maybe for BI-use cases.
 
+<iframe width="675" height="380" src="https://www.loom.com/embed/320a5e9750904f1da250ce1d4dfcd909" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Requirements
 
 Make sure you have installed [Magniv](../). 
