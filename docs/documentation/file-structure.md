@@ -4,16 +4,17 @@ sidebar_position: 1
 
 # File Structure
 
-There are two requirements when it comes to file structure for any magniv project:
-1. There needs to be a root tasks folder where all the magniv tasks live
-2. There needs to be a requirements.txt in the root or parent of where the magniv task lives
+There are two main file structure requirements for Magniv projects:
+1. A `tasks/` folder must exist at the root of the project. This is where all tasks will live.
+2. At least one `requirements.txt` file must exist in the `tasks/` folder.
 
-You can have multiple subfolder within a tasks folder and each of those folders can have a different requirements.txt file.
-If no requirements.txt file is defined in a subfolder, the nearest parent requirements.txt file will be used.
+Inside the `/tasks/` folder, your project can be structured however you wish. Magniv will recursively search for tasks to orchestrate. In projects with nested subdirectories inside of `/tasks/`, Magniv will match each task with its closest `requirements.txt` (moving up each directory until reaching the `/tasks`).
 
+---
 
+Below are examples of valid file structures:
 
-Here are examples of valid file structures
+#### Flat project structure
 
 ```bash
 tasks
@@ -22,6 +23,7 @@ tasks
 └── recommender_tasks.py
 ```
 
+#### Subdirectories each with individual `requirements.txt`
 
 ```bash
 tasks
@@ -33,8 +35,7 @@ tasks
    └── reccomender_tasks.py 
 ```
 
-
-or 
+#### Subdirectories with mixed `requirements.txt`
 
 ```bash
 tasks

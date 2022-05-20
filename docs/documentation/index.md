@@ -8,4 +8,4 @@ The Magniv Core Python library is comprised of two main parts:
 * [The CLI](../documentation/cli)
 
 
-Everyone who uses `magniv` will interact with the task decorator class. The CLI, however, is only relevant for self-hosted installations as well as local debugging.
+All users of `magniv` will interact with the task decorator class. The CLI, however, is only relevant for self-hosted installations as well as local debugging.

@@ -1,21 +1,18 @@
 # CLI
 
+The Magniv CLI is relevant to debug failing builds and roll out a self-hosted Magniv installation. You can export your Magniv tasks into Airflow DAGs through the CLI.
 
-The CLI should only be relevant if you are trying to export your own code to Airflow or create your own hosted self-hosted version of magniv.
+The CLI has 3 actions:
 
+* [build](./build) — traverses your `/tasks/` folder and builds a representation of all the tasks
+* [export](./export) — uses the built representation to export Airflow DAGs 
+* [run](./run) — command used by the Airflow DAGs to actually run an individual task
 
-There are 3 parts to the cli:
-
-* [build](./build) — traverses your task folder and builds a representation of all the tasks
-* [export](./export) — uses the built representation to export into Airflow Dags 
-* [run](./run) — command used by the Airflow dags to actually run a task
-
-
-In order to export into airflow you need to run:
+To export tasks into Airflow DAGs you need to run:
 
 ```bash
 magniv-cli build
 magniv-cli export 
 ```
 
-This will create a dags folder from your tasks folder.
+This will create a `/dags/` folder from your `/tasks/` folder.
