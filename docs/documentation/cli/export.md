@@ -14,4 +14,4 @@ Optional arguments:
 |---------|----|-----------|
 |`--gcp`    | flag | Set this flag to export Google Cloud Composer compatible Airflow DAGs.|
 |`--gcp-project-id <PROJECT ID>` | argument | Argument must be set when `--gcp` is set. |
-|`--gcp-dag-folder <location of DAG folder>`|argument| Argument must be set when `--gcp` is set.| 
+|`--gcp-dag-folder <location of DAG folder>`|argument| Argument must be set when `--gcp` is set. This will be a URL beginning with `gs://` from GCP. | 
