@@ -15,6 +15,16 @@ Magniv core can be found on [pypi](https://pypi.org/project/magniv/) and install
 
 Once you have everything set up, take a look at the documentation for the [`magniv` library](../documentation) and follow one of [our tutorials](../tutorials).
 
+## Learn about Magniv
+
+Please check out our tutorials and technical documentation using the sidebar.
+
+Below are some recommended pages to check out:
+- [The Magniv `@task` decorator](documentation/task-decorator)
+- [Creating your first workspace (Tutorial)](tutorials/getting-started)
+- [Building a simple Slack Bot with Magniv (Tutorial)](tutorials/slack-bot)
+- [General FAQs](faq)
+
 ## Running Magniv
 Magniv can be used in our fully-managed environment or you can self-host the orchestration servers.
 
