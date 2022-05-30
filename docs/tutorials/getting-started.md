@@ -90,7 +90,7 @@ _Please note: Workspaces take some time to set up, but we will email you when it
 3. Tested your data task
 4. Scheduled and deployed your task to Magniv
 
-# What's next?
+## What's next?
 
 Play around with the Magniv web-UI. Create some new data tasks and watch them automatically deploy.
 
