@@ -270,6 +270,4 @@ Once your Magniv workspace is set up, if everything went well, you should see th
 ![Tasks page screenshot](../../static/img/entity_tasks.png)
 
 
-You can then go into the task, hit manually run and see that is successfully ran!
-
-![Tasks run screenshot](./../static/img/entity_run.png)
+You can then go into the task, hit manually run and see that it successfully ran!
