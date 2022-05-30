@@ -278,3 +278,16 @@ Once your Magniv workspace is set up, if everything went well, you should see th
 
 
 You can then go into the task, hit manually run and see that it successfully ran!
+
+## Recap
+
+**🎉 Congratulations! In this Entity Resolution tutorial, you:**
+1. Learned about one of the most common data cleaning problems.
+2. Built an Entity Resolution model to help clean your data.
+3. Deployed a daily task on Magniv to match new entities using your model.
+
+## What's next?
+
+Sit back and let your entities resolve. Maybe train the model further with new entities and human confirmations.
+
+<!-- Add other docs here -->

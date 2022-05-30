@@ -101,8 +101,10 @@ Clicking on the task will show you more information and run history. To test it 
 2. Created a Slack bot and used its incoming webhook URL to post
 3. Learned how to navigate through the Magniv dashboard
 
-# What's next?
+## What's next?
 
 Play around with the Magniv web-UI. Create some new data tasks and watch them automatically deploy.
+
+Create an [Entity Resolution model using Magniv](entity-resolution).
 
 <!-- Add other docs here -->
