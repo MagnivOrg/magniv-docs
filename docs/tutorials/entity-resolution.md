@@ -5,15 +5,25 @@ title: 'Entity Resolution'
 
 # Entity Resolution with Magniv
 
-Entity resolution is a common task that most data scientists have to perform at one point in their careers. Most entity resolution tasks follow the same protoype: linking different rows across multiple data sources (either within the same dataset or across different datasets). The difficulty lies in that there isnt a unique key that can be used to match these entites. 
+Entity resolution is the task of determining whether two or more records are referring to the same entity. This task is common for data science teams that have to deal with data that does not have a unique key.
 
-In our toy scenario, we will be tasked with building a model based on some training set of matched entities that will run every night to see if any of the new entites that were added that day can be matched to previously created ones.
+Corporation names is one example where entity resolution can be necissary. A good model should be able to determine that the names:
+- *Magniv* 
+- *Magniv, Inc*
+- *Magniv Incoperated* 
+
+are all referring to the same entity.
 
 
 In this tutorial we will be using a [dataset of college affiliations](https://dbs.uni-leipzig.de/research/projects/object_matching/benchmark_datasets_for_entity_resolution) taken from research papers. This example can be easily applied to other entity resolution scenarios. 
 
+We will also create a toy scenario where we assume that we have a set of already matched affiliations and that every night we will have to match 10new affiliations that have been entered into the system.
 
-Here is an example of some of the entities in the dataset:
+The code for this tutorial can be [found here](https://github.com/MagnivOrg/entity-resolution)
+
+## The Dataset
+
+Here is an example of some of the entities in this dataset:
 
 
 |id1|affil1|
@@ -27,12 +37,11 @@ Here is an example of some of the entities in the dataset:
 |7730|AT&T Labs Research, 180 Park Avenue, Room E243, Florham Park, NJ 07932, USA; E-mail: mff@research.att.com|
 
 
-It is easy to see that (7913, 455) and (1702,2240,7730) are sets of the same entites and that (7572, 8530, 455) is not. 
+It is easy to see that (7913, 455) and (1702, 2240, 7730) are sets of the same entites and that (7572, 8530, 455) is not. 
 
 
-The goal of the model should be able to understand this.
+Our model should be able to undersatnd this.
 
-The code for this tutorial can be [found here](https://github.com/MagnivOrg/entity-resolution)
 
 ## Requirements
 
@@ -48,7 +57,16 @@ In our example we use [sqlalchemy](https://pypi.org/project/SQLAlchemy/) to set 
 
 As we saw in the [Your First Workspace Tutorial](getting-started), we start by setting up a Github repo with a `tasks` folder at its root. We will also start by creating a `entity_resolution.py` and `requirements.txt` inside our `/tasks` folder.
 
-Let's also begin by setting up a [virtual environment](https://docs.python.org/3/library/venv.html) with `python3 -m venv .venv`. Make sure to pip install `magniv` and all the other relevant libraries. Activate your venv with `source .venv/bin/activate`
+Let's also begin by setting up a [virtual environment](https://docs.python.org/3/library/venv.html) with 
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+Then make sure to pip install `magniv` and all the other relevant libraries.
+
+
+Your file structure should look like this:
 
 ```bash
 .venv
@@ -60,24 +78,24 @@ tasks
 ## Building the Model
 
 As part of this tutorial there are two parts:
-1. Building a model that we can use nightly
-2. The nightly task that takes in the new entites and looks for a match.
+1. Building a model that we can use on new entries
+2. The nightly task that takes in the new entites and looks for a match using the model
 
-The model can take many forms. The simplest of which is to use a library like [fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/). Fuzzywuzzy works well in some scenarios. It takes the Levenshtein Distance between the two sequences, this works well in situations where we are looking for entites that are just off by a character or two because of spelling error or something similar.
+The model can take many forms. The simplest of which is to use a library like [fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/). Fuzzywuzzy works well in some scenarios. It takes the Levenshtein Distance between the two sequences, which works well in situations where we are looking for entites that are just off by a character or two because of spelling.
 
-In this dataset, we need a bit more of domain knowledge -- the model should be able to understand that "USA" and "United States of America" are the same. It should also be able to learn a representation of a string where it can place a higher focus on certain parts of the entity. For example it should be able to tell that "Berkley, California USA" is not the same as "Stanford, California USA"
+In this dataset, we need a bit more of domain knowledge -- the model should be able to understand that "USA" and "United States of America" are the same. It should also be able to learn a representation of a string where it can place a higher focus on certain parts of the string. For example it should be able to tell that "Berkley, California USA" is not the same as "Stanford, California USA" even though they share "California USA". 
 
 
-This is a difficult task, and is usually why a lot of entity resolution systems have some sort of human in the loop. With that being said, we can get a good approximiate solution using a strong embedding model that is trained on a large corpus.
+This is a difficult task, and is usually why a lot of entity resolution systems have some sort of human in the loop. With that being said, we can get a good approximiate solution using a strong embedding model.
 
 The python library [Sentence Transformers](https://pypi.org/project/sentence-transformers/) is a great tool that will allow us to use a pre-trained model to get that "domain knowledge" we want. We will be using their `all-mpnet-base-v2` pretrained model.
 
 
-The premise for this model is very simple. We take shuffle the dataset, and take 50% for a training set. We go through the training set and link create bins for each entity that is present in it. 
+The premise for the rest of the model is very simple. We take shuffle the dataset, and take 50% for a training set. We will go through the training set and create bins for each entity that is present in it. 
 
-Meaning if 
+Concretely if 
 
-- AT&T Labs Inc. and 
+- AT&T Labs Inc. 
 - AT&T Labs Research, 180 Park Avenue, Room E243, Florham Park, NJ 07932, USA; E-mail: mff@research.att.com
 
 are present in the training set wecombine them with a "\n" and treat it as a single entity.
@@ -86,7 +104,7 @@ We then take the embedding of each of these combined bins.
 
 There are several other options here that can be tested -- instead of combining the strings and then embedding them each entity can be embedded and then a centroid vector can be created to reperesnt that entity. This one is just the quickest way to get started.
 
-Here is the code we used to prepare the data for further modeling:
+Here is the code we used to create these bins:
 
 ```python
 import pandas as pd
@@ -160,16 +178,22 @@ if __name__ == "__main__":
     prepare()
 ```
 
+It can be found in [tasks/prepare.py in our github repo](https://github.com/MagnivOrg/entity-resolution/blob/master/tasks/prepare.py)
+
 ## Create the Magniv task
 
-Our daily Magniv task takes all the new entites and sees if they already exist in the db.
+Our nightly Magniv task will look at the newest entites (in our example we take 10 that have not been matched before) and check if there is a match
+in the database.
 
-The way we do that is to take the cosine similaity between the new entity and compare it across all the pre-existing entities.
+We do this by taking the cosine similaity between the new entity and compare it across all the pre-existing entities.
 We take the highest cosine similaity above a certain threshold (0.8 in this example) and call that the match, if no match exists it is a new entity.
 
-While we do not do this in this example, the model can be updated here by adding the match to the current entity and updating its embedding vector.
+While we do not do this in this example, the model can learn from new examples by adding new matches to the entity and updating its embedding vector.
 
 If a human in the loop is necissary for your use case, an extra "staging" flag can be set to just have all the matches confirmed before they are merged.
+
+
+Here is the code for our Magniv task:
 ```python
 from models import session, Affiliations as affiliations_table
 from sentence_transformers import util
@@ -223,6 +247,8 @@ def daily_entity_resolution():
 if __name__ == "__main__":
     nightly_task()
 ```
+
+It can be found in [tasks/entity_resolution.py in our github repo](https://github.com/MagnivOrg/entity-resolution/blob/master/tasks/entity_resolution.py)
 ## Push to Github
 
 Don't forgot to commit your new task and push the Github repo!
@@ -246,4 +272,4 @@ Once your Magniv workspace is set up, if everything went well, you should see th
 
 You can then go into the task, hit manually run and see that is successfully ran!
 
-![Tasks run screenshot](../../static/img/entity_task_run.png)
+![Tasks run screenshot](./../static/img/entity_task_run.png)
