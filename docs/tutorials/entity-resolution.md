@@ -5,9 +5,9 @@ title: 'Entity Resolution'
 
 # Entity Resolution with Magniv
 
-Entity resolution is the task of determining whether two or more records are referring to the same entity. This task is common for data science teams that have to deal with data that does not have a unique key.
+Entity resolution is the task of determining whether two or more records are referring to the same entity. This task is common for data science teams dealing with data that lacks a single, unique key.
 
-Corporation names is one example where entity resolution can be necissary. A good model should be able to determine that the names:
+Corporation names is one example where entity resolution can be necessary. A good model should be able to determine that the names:
 - *Magniv* 
 - *Magniv, Inc*
 - *Magniv Incoperated* 
@@ -15,15 +15,20 @@ Corporation names is one example where entity resolution can be necissary. A goo
 are all referring to the same entity.
 
 
-In this tutorial we will be using a [dataset of college affiliations](https://dbs.uni-leipzig.de/research/projects/object_matching/benchmark_datasets_for_entity_resolution) taken from research papers. This example can be easily applied to other entity resolution scenarios. 
+In this tutorial we will be using a [dataset of college affiliations](https://dbs.uni-leipzig.de/research/projects/object_matching/benchmark_datasets_for_entity_resolution) taken from academic research. This example can be easily applied to other real-world entity resolution scenarios. 
 
-We will also create a toy scenario where we assume that we have a set of already matched affiliations and that every night we will have to match 10new affiliations that have been entered into the system.
+In our scenario, we will assume that we already have a set of matched affiliations and every night we will need to match 10 newly entered affiliations.
 
-The code for this tutorial can be [found here](https://github.com/MagnivOrg/entity-resolution)
+:::tip
 
-## The Dataset
+The code for this tutorial can be [found here](https://github.com/MagnivOrg/entity-resolution).
 
-Here is an example of some of the entities in this dataset:
+:::
+
+
+## The dataset
+
+Below is are some of the entities in our dataset.
 
 
 |id1|affil1|
@@ -37,33 +42,35 @@ Here is an example of some of the entities in this dataset:
 |7730|AT&T Labs Research, 180 Park Avenue, Room E243, Florham Park, NJ 07932, USA; E-mail: mff@research.att.com|
 
 
-It is easy to see that (7913, 455) and (1702, 2240, 7730) are sets of the same entites and that (7572, 8530, 455) is not. 
+It is easy to see that `(7913, 455)` and `(1702, 2240, 7730)` are sets of the same entity and `(7572, 8530, 455)` contains multiple different entities. 
 
 
-Our model should be able to undersatnd this.
+Our model should be able to understand this.
 
 
 ## Requirements
 
-The main libraries necissary for this model are:
+The main libraries necessary for this model are:
 
  - [Magniv](https://pypi.org/project/magniv/)
  - [Sentence Transformers](https://pypi.org/project/sentence-transformers/)
  - [numpy](https://pypi.org/project/numpy/)
 
 
-In our example we use [sqlalchemy](https://pypi.org/project/SQLAlchemy/) to set up our sqlite db, but in production you will be using your own database.
+In our example, we use [sqlalchemy](https://pypi.org/project/SQLAlchemy/) to set up our sqlite db. In production, you will be using your own database.
+
 ## Set up the repo
 
 As we saw in the [Your First Workspace Tutorial](getting-started), we start by setting up a Github repo with a `tasks` folder at its root. We will also start by creating a `entity_resolution.py` and `requirements.txt` inside our `/tasks` folder.
 
 Let's also begin by setting up a [virtual environment](https://docs.python.org/3/library/venv.html) with 
+
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+$ python3 -m venv .venv
+$ source .venv/bin/activate
 ```
 
-Then make sure to pip install `magniv` and all the other relevant libraries.
+Don't forget to pip install `magniv` and all the other relevant libraries.
 
 
 Your file structure should look like this:
@@ -77,34 +84,32 @@ tasks
 
 ## Building the Model
 
-As part of this tutorial there are two parts:
-1. Building a model that we can use on new entries
-2. The nightly task that takes in the new entites and looks for a match using the model
+This tutorial contains two parts:
+1. Building a model that we can use to classify new entries
+2. Deploying the nightly task that takes in the new entites and looks for a match using the model
 
-The model can take many forms. The simplest of which is to use a library like [fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/). Fuzzywuzzy works well in some scenarios. It takes the Levenshtein Distance between the two sequences, which works well in situations where we are looking for entites that are just off by a character or two because of spelling.
+The model can take many forms. The simplest of which is to use a library like [fuzzywuzzy](https://pypi.org/project/fuzzywuzzy/). Fuzzywuzzy works well in some scenarios. It takes the Levenshtein Distance between the two sequences, which works well in situations where we are looking for entites that are off by just a character or two because of spelling.
 
-In this dataset, we need a bit more of domain knowledge -- the model should be able to understand that "USA" and "United States of America" are the same. It should also be able to learn a representation of a string where it can place a higher focus on certain parts of the string. For example it should be able to tell that "Berkley, California USA" is not the same as "Stanford, California USA" even though they share "California USA". 
+In this dataset, we need a bit more domain knowledge -- the model should be able to understand that "USA" and "United States of America" are the same. It should also be able to learn a representation of a title so higher focus can be placed on certain parts of the string. For example it should be able to tell that "Berkeley, California USA" is not the same as "Stanford, California USA" even though they share "California USA". 
 
-
-This is a difficult task, and is usually why a lot of entity resolution systems have some sort of human in the loop. With that being said, we can get a good approximiate solution using a strong embedding model.
+This is a difficult task, and it is usually why a lot of entity resolution systems have some sort of human in the loop. With that being said, we can get a good approximiate solution using a strong embedding model.
 
 The python library [Sentence Transformers](https://pypi.org/project/sentence-transformers/) is a great tool that will allow us to use a pre-trained model to get that "domain knowledge" we want. We will be using their `all-mpnet-base-v2` pretrained model.
 
-
-The premise for the rest of the model is very simple. We take shuffle the dataset, and take 50% for a training set. We will go through the training set and create bins for each entity that is present in it. 
+The premise for the rest of the model is very simple. We will shuffle the dataset and remove 50% for a training set. Then, we will use the training set to create bins for each entity that is present inside it. 
 
 Concretely if 
 
 - AT&T Labs Inc. 
 - AT&T Labs Research, 180 Park Avenue, Room E243, Florham Park, NJ 07932, USA; E-mail: mff@research.att.com
 
-are present in the training set wecombine them with a "\n" and treat it as a single entity.
+are present in the training set wecombine them with a `"\n"` and treat it as a single entity.
 
 We then take the embedding of each of these combined bins.
 
-There are several other options here that can be tested -- instead of combining the strings and then embedding them each entity can be embedded and then a centroid vector can be created to reperesnt that entity. This one is just the quickest way to get started.
+There are several other options here that can be tested. Instead of combining the strings and then embedding them individually, each entity can be embedded and then a centroid vector can be created to reperesnt that entity. We will stick to the first method for simplicity.
 
-Here is the code we used to create these bins:
+Below is the code we can use to create these bins.
 
 ```python
 import pandas as pd
@@ -120,7 +125,8 @@ def prepare():
     testing_set = shuffled_affiliations[shuffled_affiliations.shape[0] // 2 : -1]
     model = SentenceTransformer("sentence-transformers/all-mpnet-base-v2")
 
-    # Go through them and put them into their corresponding buckets --- then put it in a table with id,sentence,embedding,new
+    # Go through them and place into their corresponding buckets.
+    # Then, put buckets in a table with id,sentence,embedding,new
 
     included_ids = {}
     for i, row in training_set.iterrows():
@@ -178,22 +184,23 @@ if __name__ == "__main__":
     prepare()
 ```
 
-It can be found in [tasks/prepare.py in our github repo](https://github.com/MagnivOrg/entity-resolution/blob/master/tasks/prepare.py)
+This can be found in [`tasks/prepare.py` in our GitHub repo](https://github.com/MagnivOrg/entity-resolution/blob/master/tasks/prepare.py).
 
 ## Create the Magniv task
 
-Our nightly Magniv task will look at the newest entites (in our example we take 10 that have not been matched before) and check if there is a match
+Our nightly Magniv task will examine new entites (in our example we take 10 that have not been matched before) and check if there is a match
 in the database.
 
-We do this by taking the cosine similaity between the new entity and compare it across all the pre-existing entities.
-We take the highest cosine similaity above a certain threshold (0.8 in this example) and call that the match, if no match exists it is a new entity.
+We do this by taking the cosine similaity between the new entity and comparing it across all the pre-existing entities.
+We take the highest cosine similaity above a certain threshold (0.8 in this example) and call that the match. If no match exists, we create a new entity.
 
-While we do not do this in this example, the model can learn from new examples by adding new matches to the entity and updating its embedding vector.
+The model can learn from new examples by adding new matches to the entity and updating its embedding vector. For now, we will skip over this.
 
-If a human in the loop is necissary for your use case, an extra "staging" flag can be set to just have all the matches confirmed before they are merged.
+If a human in the loop is necessary for your use case, an extra "staging" flag can be set to have all matches confirmed before they are merged.
 
 
-Here is the code for our Magniv task:
+Below is the code for our Magniv task.
+
 ```python
 from models import session, Affiliations as affiliations_table
 from sentence_transformers import util
@@ -202,7 +209,6 @@ import json
 from magniv.core import task
 
 THRESHOLD = 0.80
-
 
 @task(schedule="@daily", description="Daily task to resolve new entites")
 def daily_entity_resolution():
@@ -248,20 +254,21 @@ if __name__ == "__main__":
     nightly_task()
 ```
 
-It can be found in [tasks/entity_resolution.py in our github repo](https://github.com/MagnivOrg/entity-resolution/blob/master/tasks/entity_resolution.py)
-## Push to Github
+It can be found in [`tasks/entity_resolution.py` in our GitHub repo](https://github.com/MagnivOrg/entity-resolution/blob/master/tasks/entity_resolution.py).
 
-Don't forgot to commit your new task and push the Github repo!
+## Push to GitHub
+
+Don't forgot to commit your new task and push to the GitHub repo!
 
 ```bash
 $ git add .
-$ git commit -m 'magniv entity resolution example'
+$ git commit -m 'Magniv entity resolution example!'
 $ git push
 ```
 
 ## Deploy to Magniv
 
-Now that we have written our Entity Resolution Model, let's [create a Magniv workspace](https://dashboard.magniv.io/create-workspace) to host it.
+Now that we have built our Entity Resolution model, let's [create a Magniv workspace](https://dashboard.magniv.io/create-workspace) to deploy it.
 
 ![Create workspace screenshot](../../static/img/create_entity_workspace.png)
 
