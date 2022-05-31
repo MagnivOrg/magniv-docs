@@ -1,6 +1,8 @@
 ---
 sidebar_position: 4
 title: 'Entity Resolution'
+description: A Quick and Easy Way to do Entity Resolution with Magniv
+keywords: [entity resolution, magniv, entity resolution tutorial, data science, entity resolution magniv tutorial]
 ---
 
 # Entity Resolution with Magniv
