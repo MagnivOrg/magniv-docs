@@ -35,6 +35,7 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [{name: 'keywords', content:'data science', 'docs', 'tutorials', 'magniv', 'magniv tutorial', 'magniv docs', 'job orchestration', 'airflow', 'easy airflow', 'easy cron', 'cron', 'python'}],
       navbar: {
         title: 'Magniv',
         logo: {
