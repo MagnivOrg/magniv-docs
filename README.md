@@ -1,4 +1,6 @@
-# Website
+# Magniv Docs 
+
+The Magniv documentation is publically available at https://docs.magniv.io/
 
 This website is built using [Docusaurus 2](https://docusaurus.io/), a modern static website generator.
 
