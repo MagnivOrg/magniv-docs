@@ -6,7 +6,7 @@ sidebar_position: 2
 
 All scheduled tasks are decorated with the `@task()` decorator. This is what tells Magniv to orchestrate the given function.
 
-The class definition can be found [here](https://github.com/MagnivOrg/magniv/blob/master/magniv/core/task.py).
+The class definition can be found [here](https://github.com/MagnivOrg/magniv-core/blob/master/magniv/core/task.py).
 
 ## Location
 
