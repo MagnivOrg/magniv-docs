@@ -16,6 +16,7 @@ Optional arguments:
 |`--gcp-project-id <PROJECT ID>` | argument | Argument must be set when `--gcp` is set. |
 |`--gcp-dag-folder <location of DAG folder>`|argument| Argument must be set when `--gcp` is set. This will be a URL beginning with `gs://` from GCP. | 
 |`--callback-hook <url to callback after a task runs>`|argument| Callback to be called when a task is either successful or has failed [see callback](#callback) to learn what information gets sent| 
+|`--kubernetes-startup-timeout <seconds>`|argument| Defaults to 120 seconds, this is passed in as the `startup_timeout_seconds` in the `kubernetesPodOperator` in Airflow| 
 |`--env-file-path <filepath to env file>`|argument| Location of file with environment variables to be passed into tasks should be in the format of `KEY=VALUE`|
 
 
