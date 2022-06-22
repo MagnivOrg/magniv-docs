@@ -95,4 +95,5 @@ _Please note: Workspaces take some time to set up, but we will email you when it
 Play around with the Magniv web-UI. Create some new data tasks and watch them automatically deploy.
 
 - [Create a Slackbot using Magniv](slack-bot)
+- [Create a Github scraper using Magniv](github-scraper)
 <!-- Add other docs here -->

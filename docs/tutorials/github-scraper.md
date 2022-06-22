@@ -7,9 +7,16 @@ keywords: [github stargazers, magniv, get github emails tutorial, data science, 
 
 # Scraping GitHub Stargazers using Magniv
 
-In this tutorial we will create a Magniv data application that gets the full GitHub profile of stargazers on GitHub repositories.
+In this tutorial, we will create a Magniv data application that retrieves the full GitHub profile of all stargazers on a given GitHub repository (despite API rate limits).
 
 <div style={{position:"relative", paddingBottom:"62.5%", height:"0", marginBottom:"15px"}}><iframe src="https://www.loom.com/embed/002d77f02e294644aa680eec5d249e09" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position:"absolute", top:"0", left:"0", width:"100%", height:"100%"}}></iframe></div>
+
+## Overview
+
+This tutorial illustrates how Magniv allows you to:
+1. Work with API that has a rate limit
+2. Create a modular data application
+3. Implement a light-weight artifact store between Magniv tasks using Redis
 
 :::tip
 
@@ -17,44 +24,36 @@ The code for this tutorial can be [found here](https://github.com/MagnivOrg/magn
 
 :::
 
-
-This example illustrates how Magniv allows you to:
-1. Work with API that has a rate limit
-2. Create a modular data application
-3. Use Redis as an artifact store between Magniv tasks
-
 ## Stargazers
 
-Stargazers is the name GitHub gives to people who have starred a repo:
+Stargazers is the name GitHub gives to users who have starred a repo:
 ![Stargazers screenshot](../../static/img/stargazers.png)
 
-[The GitHub API](https://docs.github.com/en/rest) allows you to get all the accounts of stargazers. You can then further use the GitHub API to get the full profile information of those users. This information can be used to calculate cool metrics about repositories and also create lists of GitHub users who have certain interests.
+[The GitHub API](https://docs.github.com/en/rest) allows you to retrieve a list of stargazers on a repo. You can then further use the GitHub API to get the full profile information of each user. This information can be used to calculate interesting metrics about repositories, as well as being used to create lists of GitHub users who have certain interests.
 
-  
-Given the sheer amount of stargazers for some repos and [GitHub's rate limits](https://docs.github.com/en/developers/apps/building-github-apps/rate-limits-for-github-apps) it is unrealistic to run this on a local machine, making scheduling it on the cloud with a platform like Magniv a great choice.
+Given the sheer amount of stargazers for some repos and [GitHub's rate limits](https://docs.github.com/en/developers/apps/building-github-apps/rate-limits-for-github-apps), it is unrealistic to constantly re-run this on a local machine. Scheduling these jobs on the cloud with a platform like Magniv will greatly help.
 
-## Pre-Magniv Setup
+## Requirements
 
-Before you get started with Magniv you should:
+Before starting this tutorial, make sure to:
 - Create a [Github OAuth app](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app)
-- Create a Redis instance you can connect to (we created one on [Render](https://render.com/))
-- Create a Postgres DB you can connect to (we used [Railway](https://railway.app/) because they let you view the data quickly, Render can also work here)
+- Create a Redis instance you can connect to ([Render](https://render.com/) is the easiest place to do this)
+- Create a Postgres database you can connect to ([Railway](https://railway.app/) and [Render](https://render.com/) are both good choices for this)
 
 ## Task Architecture 
 
-This scraper will consist of three different Magniv Tasks:
-1. Task 1 will get the stargazers from a repo
-2. Task 2 will take the stargazers and get their full profile information
-3. Task 3 will clean those profiles and put them into a Postgres database
+This scraper will consist of three different Magniv tasks:
+1. Retrieve a list of stargazers from a repo
+2. Fetch full profile information for each stargazer user
+3. Clean fetched user profiles and save into a Postgres database
 
-We will be using [Redis sets](https://redis.io/docs/manual/data-types/#sets) to keep track of all of our objects between the three tasks. This will act like an artifact store.
+We will be using [Redis sets](https://redis.io/docs/manual/data-types/#sets) to pass data between the three tasks. This will serve as an artifact store.
 
+## Task 1: Retrieving stargazers for a repo {#task1}
 
-## Task 1: Prepare {#task1}
+We must now read from a Redis set containing name of the repos that have yet to be scraped. For this tutorial, we will manually add a list of repos to this set. This could easily be extended through an endpoint to allow anyone to add repos to the Redis set.
 
-This task reads a Redis set that has the name of the repos that are to be scraped. For this tutorial we manually added repos to this set, but you can easily imagine creating an endpoint to allow anyone to add repos to this set.
-
-We scheduled this task to run daily. It checks the Redis set `github_repos`, calls the GitHub API to get the stargazers and then adds them to another Redis set called `github_list`.
+This task should be scheduled to run daily. On each run, a repo is popped from the Redis set `github_repos`, the GitHub API is called to retrieve the list of stargazers for the repo, and the stargazers are pushed to another Redis set `github_list`.
 ```python
 @task(
     schedule="@daily",
@@ -108,11 +107,11 @@ def _get_star_gazers(repo, client_id, client_secret, page=1, user_profiles=[]):
 
 ```
 
-## Task 2: Collecting Profile Information
+## Task 2: Collecting profile information {#task2}
 
-This next task takes the profiles from [Task 1](#task1) which are in the Redis set `github_list` and gets the full profile information by querying the GitHub API. It takes that response and adds it to the Redis set `finished_profiles`. 
+This next task uses the profiles from [Task 1](#task1), which are stored in the Redis set `github_list`, and retrieves the full user profile information by querying the GitHub API. The GitHub response is then added to the Redis set `finished_profiles`. 
 
-The difficulty with this task is that GitHub rate limits your credentials to 5000 calls per an hour. To work around this we schedule the task for every two hours and continue popping from the Redis set until we get rate limited. 
+The difficulty with this task is that GitHub rate limits your credentials to 5000 requests per hour. To work around this, we schedule the task to run every two hours and continue popping new users from the Redis set until getting rate limited. 
 
 
 ```python
@@ -159,9 +158,9 @@ def get_email():
             break
 ```
 
-## Task 3: Cleaning Up
+## Task 3: Saving to Postgres
 
-The third Magniv task cleans up the profiles from the `finished_profiles` Redis set and adds them to a Postgres DB.
+The third Magniv task cleans up the profiles from the `finished_profiles` Redis set and saves them to a Postgres database.
 
 ```python
 @task(
@@ -237,15 +236,15 @@ def _get_repo(file_name):
     return github_repo_name
 ```
 
-## Setting up ENV Variables
+## Setting up environment variables
 
-Once you have all your tasks and `requirements.txt` ready, push it all up to Magniv 🚀!
+Once you have all your tasks and `requirements.txt` ready, push it to your Magniv workspace 🚀!
 
 Check out [Your First Workspace](./getting-started) if you need help figuring out how to do that.
 
-The last task we need to do is to set up the environment variables. 
+Finally, we must set up our environment variables. 
 
-Lucky that is pretty easy to do on Magniv! Just navigate to the config page of your workspace and scroll to the bottom. There you will be able to add all your environment variables.
+Luckily, that is pretty easy to do on Magniv! Just navigate to the "Config" page of your workspace and scroll to the bottom. There you will be able to add all your environment variables.
 
 ![Env variables](../../static/img/envvars.png)
 
@@ -255,13 +254,13 @@ Once you do that you are all done! 🎆
 ## Recap
 
 **🎉 Congratulations! In this Github Scraper tutorial, you:**
-1. Learned how Magniv can help you scrape data that is rate limited.
-2. Built a modular Magniv data application that scrapes data reliably and with transparency. 
-3. Deployed three tasks on Magniv that use Redis as an artifact store to pass data and Postgres to store cleaned data.
+1. Learned how Magniv can help you scrape data using a rate limited API.
+2. Built a modular Magniv data application that scrapes data reliably and has good visibility. 
+3. Deployed three tasks on Magniv using Redis as an artifact store to pass data around and Postgres to store cleaned data.
 
 ## What's next?
 
-Enjoy your amazing data application that took you little effort; Magniv dealt with all the infrastructure headache.
-Imagine all the projects you can do with ease of Magniv!
 
-Feel free to fork [this repo](https://github.com/MagnivOrg/magniv-github) and adjust it to your needs
+Imagine all the projects you can build now that Magniv deals with the infrastructure headaches. Enjoy your amazing data application and enjoy how quickly you built it.
+
+Feel free to fork [this repo](https://github.com/MagnivOrg/magniv-github) and adjust it to your needs.

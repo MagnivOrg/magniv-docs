@@ -292,4 +292,6 @@ You can then go into the task, hit manually run and see that it successfully ran
 
 Sit back and let your entities resolve. Maybe train the model further with new entities and human confirmations.
 
+Get around GitHub API rate limits [using Magniv](github-scraper).
+
 <!-- Add other docs here -->
