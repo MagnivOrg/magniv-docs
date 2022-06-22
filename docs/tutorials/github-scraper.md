@@ -11,7 +11,7 @@ In this tutorial, we will create a Magniv data application that retrieves the fu
 
 ## Motivation
 
-Scraping data can be a painful process. The amount of data that needs to be scraped makes it almost impossible to run locally. Beyond that, scrapers can fail because they are rate limited and the data being scraped is changing.
+Scraping data can be a painful process. The amount of data that needs to be scraped makes this type of task almost impossible to run locally. Beyond that, scrapers can fail because many APIs are rate limited and and contain changing data.
  
 A robust webscraper needs good error handling, easy scheduling and fast iterability. Magniv offers all of this as part of its platform.
 
