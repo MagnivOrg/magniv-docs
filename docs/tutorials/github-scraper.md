@@ -14,7 +14,7 @@ In this tutorial, we will create a Magniv data application that retrieves the fu
 ## Overview
 
 This tutorial illustrates how Magniv allows you to:
-1. Work with API that has a rate limit
+1. Work with an API that has a rate limit
 2. Create a modular data application
 3. Implement a light-weight artifact store between Magniv tasks using Redis
 
@@ -37,8 +37,8 @@ Given the sheer amount of stargazers for some repos and [GitHub's rate limits](h
 
 Before starting this tutorial, make sure to:
 - Create a [Github OAuth app](https://docs.github.com/en/developers/apps/building-oauth-apps/creating-an-oauth-app)
-- Create a Redis instance you can connect to ([Render](https://render.com/) is the easiest place to do this)
-- Create a Postgres database you can connect to ([Railway](https://railway.app/) and [Render](https://render.com/) are both good choices for this)
+- Create a Redis instance you can connect to ([Render](https://render.com/) and [Render](https://railway.app/) are both good choices for this)
+- Create a Postgres database you can connect to (Railway and Render are good choices here as well)
 
 ## Task Architecture 
 
