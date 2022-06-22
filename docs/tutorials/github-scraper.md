@@ -7,7 +7,7 @@ keywords: [github stargazers, magniv, get github emails tutorial, data science, 
 
 # Scraping GitHub Stargazers using Magniv
 
-In this tutorial we will create a Magniv data application that gets the full profile information of stargazers of GitHub repositories.
+In this tutorial we will create a Magniv data application that gets the full GitHub profile of stargazers on GitHub repositories.
 
 <div style={{position:"relative", paddingBottom:"62.5%", height:"0", marginBottom:"15px"}}><iframe src="https://www.loom.com/embed/002d77f02e294644aa680eec5d249e09" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position:"absolute", top:"0", left:"0", width:"100%", height:"100%"}}></iframe></div>
 
@@ -112,7 +112,7 @@ def _get_star_gazers(repo, client_id, client_secret, page=1, user_profiles=[]):
 
 This next task takes the profiles from [Task 1](#task1) which are in the Redis set `github_list` and gets the full profile information by querying the GitHub API. It takes that response and adds it to the Redis set `finished_profiles`. 
 
-The difficulty with this task is that GitHub rate limits your credentials to 5000 calls per an hour. To work around that we schedule this task for every two hours and continue popping from the Redis set until we get rate limited. 
+The difficulty with this task is that GitHub rate limits your credentials to 5000 calls per an hour. To work around this we schedule the task for every two hours and continue popping from the Redis set until we get rate limited. 
 
 
 ```python
@@ -240,6 +240,7 @@ def _get_repo(file_name):
 ## Setting up ENV Variables
 
 Once you have all your tasks and `requirements.txt` ready, push it all up to Magniv 🚀!
+
 Check out [Your First Workspace](./getting-started) if you need help figuring out how to do that.
 
 The last task we need to do is to set up the environment variables. 
