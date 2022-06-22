@@ -9,6 +9,12 @@ keywords: [github stargazers, magniv, get github emails tutorial, data science, 
 
 In this tutorial, we will create a Magniv data application that retrieves the full GitHub profile of all stargazers on a given GitHub repository (despite API rate limits).
 
+## Motivation
+
+Scraping data can be a painful process. The amount of data that needs to be scraped makes it almost impossible to run locally. Beyond that, scrapers can fail because they are rate limited and the data being scraped is changing.
+ 
+A robust webscraper needs good error handling, easy scheduling and fast iterability. Magniv offers all of this as part of its platform.
+
 <div style={{position:"relative", paddingBottom:"62.5%", height:"0", marginBottom:"15px"}}><iframe src="https://www.loom.com/embed/002d77f02e294644aa680eec5d249e09" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style={{position:"absolute", top:"0", left:"0", width:"100%", height:"100%"}}></iframe></div>
 
 ## Overview
