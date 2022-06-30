@@ -79,4 +79,4 @@ User authentication on the hosted Magniv dashboard is set up through your GitHub
 
 Magniv will never use your repositories for anything other than the workspaces you have created in our dashboard. Feel free to restrict the workspaces that Magniv can read using [this link](https://github.com/apps/magniv-io/installations/new).
 
-All workspace instances live in their own Magniv instance. Users are completely isolated from eachother and user workspaces live in different boxes. Individual tasks in one workspace operate in separate containers.
+All workspace instances live in their own Magniv instance. Users are completely isolated from eachother and user workspaces live in different boxes. Individual tasks are also isolated from eachother in separate containers.
