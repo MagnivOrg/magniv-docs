@@ -25,6 +25,21 @@ Magniv is for teams struggling to hire that unicorn data scientist with deep inf
 
 Data scientists need the ability to create, deploy, and maintain their data applications, without relying on support from software engineers. Responsibility handoffs waste time and inevitably priorities end up lost in the JIRA ether.
 
+### Use Cases
+
+Magniv can be used for so many types of tasks, from traditional data science projects to one-off scheduled jobs. We love hearing about new ways people use Magniv so [send us an email](mailto:hello@magniv.io) if you have a interesting use case!
+
+We use Magniv internally for a lot as well. Once you have an easy orchestration platform, approximate scheduled solutions start to feel much better than month-long model tuning projects. Sometimes it's better to skip building a model to better detect fraud when you can just run an hourly Python job to close invalid accounts.
+
+Here are some ideas that we have seen:
+- [Entity resolution in public datasets](tutorials/entity-resolution)
+- [Regular Slack message alerts on user review sentiment](https://docs.magniv.io/tutorials/slack-bot)
+- [Building a GitHub scraper (despite API rate limits)](https://docs.magniv.io/tutorials/github-scraper)
+- Pulling Twilio logs for daily user post-processing
+- Fetching and analyzing a regularly updated public data source
+- Detecting fraud or suspicious activity on a regular interval after-the-fact
+- Lead scoring social network users and generating mutual friend lists
+
 ### Core Features
 
 - Open source core
