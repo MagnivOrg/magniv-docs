@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 4
 title: 'GitHub Scraper'
 description: How to get GitHub Stargazers using Magniv
 keywords: [github stargazers, magniv, get github emails tutorial, data science, magniv tutorial, github profiles email]

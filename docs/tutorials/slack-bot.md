@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 5
 ---
 
 # Building a Slack Bot
@@ -54,13 +54,13 @@ I like to use the Python [requests library](https://docs.python-requests.org/en/
 import requests
 ```
  
-Next, we will add a POST request to the Slack incoming webhook URL we retrieved above. Because we want this to be orchestrated by Magniv, it will go in our `say_hi()` function. Let's also add a print statement for logging purposes.
+Next, we will add a POST request to the Slack incoming webhook URL we retrieved above (you can add it to an environment variable [with these instructions](../faq/#how-do-i-use-environment-variables)). Because we want this to be orchestrated by Magniv, it will go in our `say_hi()` function. Let's also add a print statement for logging purposes.
 
 ```python
 @task(schedule="@daily")
 def say_hi():
 	message = "Hello Slack, the time is {}".format(datetime.now())
-	req = requests.post(SLACK_WEBHOOK_URL, json={"text": message})
+	req = requests.post(os.environ.get("SLACK_WEBHOOK_URL"), json={"text": message})
 	print("Message sent:", message)
 ```
 
