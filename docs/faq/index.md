@@ -49,3 +49,15 @@ If you are using conda to manage your virtual environment you need to run a slig
     pip list --format=freeze > requirements.txt
 ```
  
+ ## How do I use environment variables?
+
+While in your workspace, navigate to the "Config" tab and you will see an area to input and edit the environment variables.
+
+![Env variables](../../static/img/envvars.png)
+
+After a new build updates the environment variables, you will be able to access them in code.
+
+```python
+import os
+os.environ.get("GITHUB_CLIENT_SECRET")
+```
