@@ -62,6 +62,12 @@ const config = {
             label: 'FAQs',
           },
           {
+            href: 'https://dashboard.magniv.io',
+            label: 'Dashboard',
+            position: 'right',
+          },
+
+          {
             href: 'https://github.com/MagnivOrg',
             label: 'GitHub',
             position: 'right',
