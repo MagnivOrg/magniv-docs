@@ -1,10 +1,10 @@
 ---
-sidebar_position: 6
+sidebar_position: 2
 title: 'Book Recommender'
 description: Find your Next Book Recommendation using Magniv
 keywords: [svd, recommender system, recommendations, netflix prize, magniv, data science, book recommender magniv tutorial, goodreads dataset, goodreads recommender]
 ---
-
+*To view this project live on Magniv [click here](https://dashboard.magniv.io/w/bookrecommendations/tasks).*
 
 ## Background
 
@@ -14,11 +14,10 @@ In this tutorial, we will use Magniv to deploy a model that will find us new boo
 
 :::tip
 The Jupyter notebook used to prepare this project can be [found here](https://github.com/MagnivOrg/book-recommender/blob/master/book.ipynb), and the rest of the code is available in [this repository](https://github.com/MagnivOrg/book-recommender).
-:::
 
-:::tip
 A smaller interactive version of this can be found [on hex](https://app.hex.tech/d043b286-cb12-4f1a-9980-a64d29b84934/app/609be11f-73a3-4cd0-a484-bf10ba8d63a0/latest). 
 :::
+
 
 ## Project Considerations
 
@@ -50,7 +49,7 @@ The rating matring is huge (772k users by 275k books) but pretty sparse, so let'
 
 ![lil matrix screenshot](../../static/img/image1_bookrec.png)
 
-### STEP 2: Performing the Singular Value Decomposition
+### STEP 2: Performing Singular Value Decomposition
 
 Inspired by the [winning submission to the Netflix Prize](https://datajobs.com/data-science-repo/Recommender-Systems-[Netflix].pdf) in 2009 (and also wanting to do some real math instead of deep learning), we will use a partial Singular Value Decomposition to decompose the rating matring and use the decomposition as embeddings.
 ![svd matrix](../../static/img/image2_bookrec.png)
@@ -66,7 +65,7 @@ The resultant matrices U and V are of shape 772730 by 18 and 275555 by 18, respe
 
 We will interpret each row of these matrices as an embedding for each user and book in the dataset.
 
-### STEP 3: Creating a Centroid Vector and Performing K Nearest Neighbors
+### STEP 3: Creating a centroid vector and performing K-Nearest-Neighbors
 
 Because we want book recommendations based on books that we have already read, all the predictor needs is the V matrix. We can view the V matrix as a series of vectors in 18 dimensional "book space". We can recommend a book by finding the closest vectors to a given vector in the book space. 
 
@@ -82,9 +81,9 @@ Let’s then calculate the centroid by taking the average of the vector represen
 We now run the centroid through a sklearn's KNN clustering algorithm and are given the closests books: 
 ![knn](../../static/img/image4_bookrec.png)
 
-Viola! Some pretty cool recommendations! Time to buy a few..
+Voila! Some pretty cool recommendations! Time to buy a few..
 
-### STEP 4: Tying it Together and Deploying on Magniv
+### STEP 4: Schedule weekly recommendation emails and deploy with Magniv
 
 We have built a pretty good model with basically no effort! Now that we have saved the V matrix and a few other lookup tools, we can create a Magniv task that will run every week.
 
