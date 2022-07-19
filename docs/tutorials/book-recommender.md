@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: 'Book Recommender'
+title: 'Weekly Book Recommendations'
 description: Find your Next Book Recommendation using Magniv
 keywords: [svd, recommender system, recommendations, netflix prize, magniv, data science, book recommender magniv tutorial, goodreads dataset, goodreads recommender]
 ---
