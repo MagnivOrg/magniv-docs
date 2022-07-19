@@ -10,8 +10,8 @@ There are two main file structure requirements for Magniv projects:
 
 Inside the `/tasks/` folder, your project can be structured however you wish. Magniv will recursively search for tasks to orchestrate. In projects with nested subdirectories inside of `/tasks/`, Magniv will match each task with its closest `requirements.txt` (moving up each directory until reaching the `/tasks`).
 
-:::danger
- **Only** place relevant helper functions and Magniv decorated tasks in the `/tasks` folder. Puttings folders releated to virtual environments **will** cause your build to fail.
+:::caution
+ Only place relevant code in the `/tasks` folder. Commiting virtual environment folders and other resources may cause your build to unexpectedly fail.
 :::
 
 ---
