@@ -5,7 +5,7 @@ sidebar_position: 3
 # Artifact Store
 
 
-We now offer the ability to create a Redis instance on a workspaces.
+We now offer the ability to create a Redis instance on workspaces.
 
 In the future we will roll out an integration with `magniv-core` this way you can keep track of different metadata for each task that accesses the artifact store.
 
