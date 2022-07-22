@@ -16,10 +16,10 @@ ___
 
 ## Adding a Redis instance
 
-To add a Redis instance to your workspace first navigate to your config page and then click on `Add Artifact Store`:
+To add a Redis instance to your workspace first navigate to your config page and then click on "Add Artifact Store":
 ![Add Artifact Store](../../static/img/add_artifact_store.png)
 
-The artifact store should take about 15 minutes to set up, once it is done you will recieve and email and your config page should look like this:
+The artifact store should take about 15 minutes to set up, once it is done you will recieve and email. Your config page should then look like this:
 ![Artifact Store Config](../../static/img/artifact_store_config.png)
 
 Magniv will automatically add the `REDIS_URL` environment variable.
