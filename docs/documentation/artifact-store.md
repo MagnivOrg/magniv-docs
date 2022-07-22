@@ -7,7 +7,7 @@ sidebar_position: 3
 
 We now offer the ability to create a Redis instance on workspaces.
 
-In the future we will roll out an integration with `magniv-core` this way you can keep track of different metadata for each task that accesses the artifact store.
+In the future we will roll out an integration with `magniv-core` so you can keep track of metadata for each task that accesses the artifact store.
 
 :::info
 Each provisioned Redis instance is 1 GB in size. If you need more please [let us know](mailto:hello@magniv.io?subject=Increase%20Redis%20Size). 
@@ -29,7 +29,8 @@ Magniv will automatically add the `REDIS_URL` environment variable.
 
 To connect to the Redis instance:
 
-- First install Redis and add it to your `requirements.txt`
+- First [install Redis](https://redis.io/docs/getting-started/) 
+- Next [install redis-py](https://redis-py.readthedocs.io/en/stable/) and add it to your `requirements.txt`
 - Then connect using:
     - the [`from_url` option](https://redis-py.readthedocs.io/en/stable/connections.html?highlight=from_url#redis.Redis.from_url) in Redis
     - the environment variable `REDIS_URL` (be sure to add this locally as well)
