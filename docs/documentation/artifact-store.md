@@ -4,10 +4,9 @@ sidebar_position: 3
 
 # Artifact Store
 
+Magniv offers the ability to spin up a Redis instance on each workspace with one-click.
 
-We now offer the ability to create a Redis instance on workspaces.
-
-In the future we will roll out an integration with `magniv-core` so you can keep track of metadata for each task that accesses the artifact store.
+_In the future, this will be integrated in `magniv-core` so that you can keep track of metadata as well as access the artifact store in a schema-agnostic way._
 
 :::info
 Each provisioned Redis instance is 1 GB in size. If you need more please [let us know](mailto:hello@magniv.io?subject=Increase%20Redis%20Size). 
@@ -16,24 +15,24 @@ ___
 
 ## Adding a Redis instance
 
-To add a Redis instance to your workspace first navigate to your config page and then click on "Add Artifact Store":
+To add a Redis instance to your workspace, navigate to your config page and click "Add Artifact Store".
+
 ![Add Artifact Store](../../static/img/add_artifact_store.png)
 
-The artifact store should take about 15 minutes to set up, once it is done you will recieve and email. Your config page should then look like this:
+The artifact store takes about 15 minutes to set up. Once it is complete, you will recieve an email. Your config page will then be populated with Redis connection strings.
+
 ![Artifact Store Config](../../static/img/artifact_store_config.png)
 
-Magniv will automatically add the `REDIS_URL` environment variable.
+Magniv will automatically add the `REDIS_URL` environment variable. Do not remove this.
 
 
 ## Connecting to Redis from a Magniv task
 
 To connect to the Redis instance:
 
-- First [install Redis](https://redis.io/docs/getting-started/) 
-- Next [install redis-py](https://redis-py.readthedocs.io/en/stable/) and add it to your `requirements.txt`
-- Then connect using:
-    - the [`from_url` option](https://redis-py.readthedocs.io/en/stable/connections.html?highlight=from_url#redis.Redis.from_url) in Redis
-    - the environment variable `REDIS_URL` (be sure to add this locally as well)
+- [Install `redis`](https://redis.io/docs/getting-started/) 
+- [Install `redis-py`](https://redis-py.readthedocs.io/en/stable/) and add it to your `requirements.txt`
+- Connect using the [`from_url` option](https://redis-py.readthedocs.io/en/stable/connections.html?highlight=from_url#redis.Redis.from_url) in `redis` as well as the environment variable `REDIS_URL`.
 
 Here is an example code snippet:
 ```python
